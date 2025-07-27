@@ -1,0 +1,19 @@
+
+# Internet Computer / DFX build outputs
+/.dfx/
+/dist/
+/ic-out/
+
+# Node packages (if used)
+node_modules/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# VS Code settings (optional)
+.vscode/
+
+# Logs and temp files
+*.log
+*.tmp

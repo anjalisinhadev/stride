@@ -1,0 +1,27 @@
+{
+  "canisters": {
+    "stride_backend": {
+      "main": "backend/main.mo",
+      "type": "motoko"
+    },
+    "stride_frontend": {
+      "dependencies": ["stride_backend"],
+      "frontend": {
+        "entrypoint": "frontend/index.html"
+      },
+      "source": ["frontend"],
+      "type": "assets"
+    }
+  },
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:4943",
+      "type": "ephemeral"
+    },
+    "ic": {
+      "type": "persistent"
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}

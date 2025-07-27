@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌿 Stride Tracker | Your Walking Companion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #6366f1;
+      --secondary: #10b981;
+      --danger: #ef4444;
+      --light: #f9fafb;
+      --dark: #1f2937;
+      --gray: #6b7280;
+      --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f3f4f6;
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .logo i {
+      font-size: 2.5rem;
+      color: var(--primary);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      color: var(--gray);
+      font-weight: 400;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .card-header i {
+      font-size: 1.5rem;
+      margin-right: 1rem;
+      color: var(--primary);
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    input {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      transition: var(--transition);
+      background-color: var(--light);
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.875rem 1.5rem;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-light);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background-color: var(--secondary);
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background-color: #34d399;
+      transform: translateY(-2px);
+    }
+
+    .btn-danger {
+      background-color: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background-color: #f87171;
+      transform: translateY(-2px);
+    }
+
+    .btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .btn i {
+      margin-right: 0.5rem;
+    }
+
+    .status {
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+    }
+
+    .status-success {
+      background-color: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .status-error {
+      background-color: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    .output-panel {
+      grid-column: 1 / -1;
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      min-height: 200px;
+    }
+
+    .output-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    #output {
+      white-space: pre-wrap;
+      font-family: 'Courier New', Courier, monospace;
+      line-height: 1.7;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 1.25rem;
+      height: 1.25rem;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 0.5rem;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+      }
+    }
+
+    /* Pulse animation for important actions */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    /* Tooltip styles */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 200px;
+      background-color: var(--dark);
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 0.5rem;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.875rem;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Stats highlight */
+    .stats-highlight {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <i class="fas fa-shoe-prints"></i>
+        <h1>Stride Tracker</h1>
+      </div>
+      <p class="subtitle">Track your walks and achieve your fitness goals</p>
+    </header>
+
+    <div class="dashboard">
+      <!-- Goal Setting Card -->
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-bullseye"></i>
+          <h2 class="card-title">Step Goal</h2>
+        </div>
+        <div class="form-group">
+          <label for="goalInput">Daily step target</label>
+          <input type="number" id="goalInput" placeholder="Default: 10000 steps">
+        </div>
+        <button id="setGoalBtn" class="btn btn-primary">
+          <i class="fas fa-check-circle"></i> Set Goal
+        </button>
+        <div id="goalStatus" class="status"></div>
+      </div>
+
+      <!-- Walk Entry Card -->
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-walking"></i>
+          <h2 class="card-title">Add Walk</h2>
+        </div>
+        <div class="form-group">
+          <label for="kmInput">Distance walked (km)</label>
+          <input type="number" step="0.1" id="kmInput" placeholder="e.g., 3.5">
+        </div>
+        <div class="form-group">
+          <label for="strideInput">Your stride length (feet)</label>
+          <input type="number" step="0.1" id="strideInput" placeholder="e.g., 2.2">
+        </div>
+        <button id="addWalkBtn" class="btn btn-secondary">
+          <i class="fas fa-plus-circle"></i> Add Walk
+        </button>
+        <div id="walkStatus" class="status"></div>
+      </div>
+
+      <!-- Output Panel -->
+      <div class="output-panel">
+        <h2 class="output-title">
+          <i class="fas fa-chart-line"></i> Activity Summary
+        </h2>
+        <div id="output">Your walk history and summary will appear here...</div>
+        <div class="action-buttons" style="margin-top: 1.5rem;">
+          <button id="getSummaryBtn" class="btn btn-primary">
+            <i class="fas fa-sync-alt"></i> Refresh Summary
+          </button>
+          <button id="getWalksBtn" class="btn btn-secondary">
+            <i class="fas fa-history"></i> Show History
+          </button>
+          <button id="clearBtn" class="btn btn-danger tooltip">
+            <i class="fas fa-trash-alt"></i> Clear All Data
+            <span class="tooltiptext">This will permanently delete all your walk data</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Your existing JavaScript code goes here
+    // (Keep all the backend connection and button handler logic from previous versions)
+    document.addEventListener("DOMContentLoaded", () => {
+      const debugOutput = document.getElementById('debugOutput');
+      
+      // Log to debug console
+      function debugLog(message) {
+        debugOutput.textContent += `\n${new Date().toLocaleTimeString()}: ${message}`;
+        debugOutput.scrollTop = debugOutput.scrollHeight;
+        console.log(message);
+      }
+      
+      debugLog("DOM loaded. Starting initialization...");
+      
+      // DOM elements
+      const goalInput = document.getElementById('goalInput');
+      const kmInput = document.getElementById('kmInput');
+      const strideInput = document.getElementById('strideInput');
+      const setGoalBtn = document.getElementById('setGoalBtn');
+      const addWalkBtn = document.getElementById('addWalkBtn');
+      const getSummaryBtn = document.getElementById('getSummaryBtn');
+      const getWalksBtn = document.getElementById('getWalksBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const output = document.getElementById('output');
+      const goalStatus = document.getElementById('goalStatus');
+      const walkStatus = document.getElementById('walkStatus');
+      
+      let backend;
+      let backendReady = false;
+      
+      // 1. Load backend script
+      function loadBackendScript() {
+        return new Promise((resolve, reject) => {
+          debugLog("Creating script element for backend");
+          const script = document.createElement('script');
+          script.src = '/stride_backend.js?ts=' + new Date().getTime();
+          
+          script.onload = () => {
+            debugLog("Backend script loaded successfully");
+            resolve();
+          };
+          
+          script.onerror = (err) => {
+            debugLog(`Error loading backend script: ${err}`);
+            reject(new Error('Failed to load backend script'));
+          };
+          
+          debugLog("Appending script to head");
+          document.head.appendChild(script);
+        });
+      }
+      
+      // 2. Initialize backend connection
+      async function initializeBackend() {
+        try {
+          debugLog("Loading backend script...");
+          await loadBackendScript();
+          
+          debugLog("Checking for window.cans...");
+          if (window.cans && window.cans.stride_backend) {
+            backend = window.cans.stride_backend;
+            backendReady = true;
+            debugLog("Backend canister found in window.cans");
+            return true;
+          }
+          
+          debugLog("window.cans not found, trying direct access...");
+          if (typeof stride_backend !== 'undefined') {
+            backend = stride_backend;
+            backendReady = true;
+            debugLog("Backend canister accessed directly");
+            return true;
+          }
+          
+          throw new Error("Backend canister not available");
+        } catch (error) {
+          debugLog(`Backend initialization error: ${error.message}`);
+          return false;
+        }
+      }
+      
+      // 3. Show loading state on buttons
+      function showLoading(button) {
+        button.dataset.originalText = button.innerHTML;
+        button.innerHTML = `<span class="loading"></span> Processing...`;
+        button.disabled = true;
+      }
+      
+      // 4. Hide loading state
+      function hideLoading(button) {
+        if (button.dataset.originalText) {
+          button.innerHTML = button.dataset.originalText;
+        }
+        button.disabled = false;
+      }
+      
+      // 5. Initialize and set up event handlers
+      (async function init() {
+        const backendInitialized = await initializeBackend();
+        
+        if (backendInitialized) {
+          debugLog("Backend initialized successfully");
+          output.textContent = "System ready. Start tracking your steps!";
+          
+          // Set up event handlers
+          setGoalBtn.addEventListener('click', handleSetGoal);
+          addWalkBtn.addEventListener('click', handleAddWalk);
+          getSummaryBtn.addEventListener('click', handleGetSummary);
+          getWalksBtn.addEventListener('click', handleGetWalks);
+          clearBtn.addEventListener('click', handleClearData);
+          
+          debugLog("Event handlers registered");
+        } else {
+          debugLog("Backend initialization failed");
+          output.textContent = "Failed to connect to backend. Please refresh the page.";
+        }
+      })();
+      
+      // 6. Button handler functions
+      async function handleSetGoal() {
+        if (!backendReady) return;
+        
+        const goal = goalInput.value;
+        showLoading(setGoalBtn);
+        debugLog(`Calling setGoal with: ${goal}`);
+        
+        try {
+          goalStatus.textContent = "Setting goal...";
+          goalStatus.className = "status status-success";
+          
+          const result = await backend.setGoal(goal);
+          debugLog(`setGoal response: ${result}`);
+          
+          goalStatus.textContent = result;
+          goalStatus.className = "status status-success";
+          goalInput.value = '';
+          
+          // Add visual feedback
+          setGoalBtn.classList.add('pulse');
+          setTimeout(() => setGoalBtn.classList.remove('pulse'), 2000);
+        } catch (error) {
+          const errorMsg = `Error: ${error.message || error}`;
+          goalStatus.textContent = errorMsg;
+          goalStatus.className = "status status-error";
+          debugLog(`setGoal error: ${errorMsg}`);
+        } finally {
+          hideLoading(setGoalBtn);
+        }
+      }
+      
+      async function handleAddWalk() {
+        if (!backendReady) return;
+        
+        const km = kmInput.value;
+        const stride = strideInput.value;
+        
+        if (!km || !stride) {
+          walkStatus.textContent = "Please enter both values";
+          walkStatus.className = "status status-error";
+          return;
+        }
+        
+        showLoading(addWalkBtn);
+        debugLog(`Calling addWalk with km: ${km}, stride: ${stride}`);
+        
+        try {
+          walkStatus.textContent = "Adding walk...";
+          walkStatus.className = "status status-success";
+          
+          const result = await backend.addWalk(km, stride);
+          debugLog(`addWalk response: ${result}`);
+          
+          walkStatus.textContent = result;
+          walkStatus.className = "status status-success";
+          kmInput.value = '';
+          strideInput.value = '';
+          
+          // Add visual feedback
+          addWalkBtn.classList.add('pulse');
+          setTimeout(() => addWalkBtn.classList.remove('pulse'), 2000);
+        } catch (error) {
+          const errorMsg = `Error: ${error.message || error}`;
+          walkStatus.textContent = errorMsg;
+          walkStatus.className = "status status-error";
+          debugLog(`addWalk error: ${errorMsg}`);
+        } finally {
+          hideLoading(addWalkBtn);
+        }
+      }
+      
+      async function handleGetSummary() {
+        if (!backendReady) return;
+        
+        showLoading(getSummaryBtn);
+        debugLog("Calling getSummary");
+        
+        try {
+          output.textContent = "Loading summary...";
+          
+          const result = await backend.getSummary();
+          debugLog(`getSummary response: ${result}`);
+          
+          // Format the output with highlights
+          output.innerHTML = result
+            .replace(/(\d+ steps)/g, '<span class="stats-highlight">$1</span>')
+            .replace(/(Goal reached!)/g, '<span class="stats-highlight">$1</span>')
+            .replace(/(\d+ times)/g, '<span class="stats-highlight">$1</span>')
+            .replace(/\n/g, '<br>');
+        } catch (error) {
+          const errorMsg = `Error: ${error.message || error}`;
+          output.textContent = errorMsg;
+          debugLog(`getSummary error: ${errorMsg}`);
+        } finally {
+          hideLoading(getSummaryBtn);
+        }
+      }
+      
+      async function handleGetWalks() {
+        if (!backendReady) return;
+        
+        showLoading(getWalksBtn);
+        debugLog("Calling getWalks");
+        
+        try {
+          output.textContent = "Loading walk history...";
+          
+          const walks = await backend.getWalks();
+          debugLog(`Received ${walks.length} walks`);
+          
+          if (walks.length === 0) {
+            output.innerHTML = "No walks recorded yet. Add your first walk!";
+            return;
+          }
+          
+          let walkList = "<div style='display: grid; gap: 1rem;'>";
+          walkList += "<h3 style='color: var(--primary); margin-bottom: 0.5rem;'>Your Walk History</h3>";
+          
+          walks.forEach((walk, index) => {
+            walkList += `
+              <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid var(--primary);">
+                <h4 style='margin-bottom: 0.5rem; color: var(--dark);'>Walk #${index + 1}</h4>
+                <p><strong>Distance:</strong> <span class="stats-highlight">${walk.km} km</span></p>
+                <p><strong>Stride:</strong> ${walk.stride} ft</p>
+                <p><strong>Steps:</strong> <span class="stats-highlight">${walk.steps}</span></p>
+              </div>
+            `;
+          });
+          
+          walkList += "</div>";
+          output.innerHTML = walkList;
+        } catch (error) {
+          const errorMsg = `Error: ${error.message || error}`;
+          output.textContent = errorMsg;
+          debugLog(`getWalks error: ${errorMsg}`);
+        } finally {
+          hideLoading(getWalksBtn);
+        }
+      }
+      
+      async function handleClearData() {
+        if (!backendReady) return;
+        
+        if (!confirm("❗️ Are you sure you want to clear ALL your walk data? This cannot be undone.")) {
+          debugLog("Clear cancelled by user");
+          return;
+        }
+        
+        showLoading(clearBtn);
+        debugLog("Calling clearAll");
+        
+        try {
+          output.textContent = "Clearing all data...";
+          
+          await backend.clearAll();
+          debugLog("Data cleared successfully");
+          
+          output.innerHTML = "<span style='color: var(--danger);'>All data cleared successfully!</span>";
+          goalStatus.textContent = "";
+          walkStatus.textContent = "";
+          
+          // Add visual feedback
+          clearBtn.classList.add('pulse');
+          setTimeout(() => clearBtn.classList.remove('pulse'), 2000);
+        } catch (error) {
+          const errorMsg = `Error: ${error.message || error}`;
+          output.textContent = errorMsg;
+          debugLog(`clearAll error: ${errorMsg}`);
+        } finally {
+          hideLoading(clearBtn);
+        }
+      }
+      
+      debugLog("Initialization script completed");
+    });
+  </script>
+  
+  <!-- This will be provided by DFX during deployment -->
+  <script src="/stride_backend.js"></script>
+</body>
+</html>
