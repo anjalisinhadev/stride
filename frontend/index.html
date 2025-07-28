@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🌿 Stride Tracker | Your Walking Companion</title>
+  <title>Stride Tracker | Your Walking Companion</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -335,7 +335,7 @@
     <header>
       <div class="logo">
         <i class="fas fa-shoe-prints"></i>
-        <h1>Stride Tracker</h1>
+        <h1>Stride</h1>
       </div>
       <p class="subtitle">Track your walks and achieve your fitness goals</p>
     </header>
@@ -405,7 +405,7 @@
     document.addEventListener("DOMContentLoaded", () => {
       const debugOutput = document.getElementById('debugOutput');
       
-      // Log to debug console
+      // Logging to to debug console
       function debugLog(message) {
         debugOutput.textContent += `\n${new Date().toLocaleTimeString()}: ${message}`;
         debugOutput.scrollTop = debugOutput.scrollHeight;
@@ -430,7 +430,7 @@
       let backend;
       let backendReady = false;
       
-      // 1. Load backend script
+      // 1. Loading backend script
       function loadBackendScript() {
         return new Promise((resolve, reject) => {
           debugLog("Creating script element for backend");
@@ -452,7 +452,7 @@
         });
       }
       
-      // 2. Initialize backend connection
+      // 2. Initializing the backend connection
       async function initializeBackend() {
         try {
           debugLog("Loading backend script...");
@@ -481,14 +481,14 @@
         }
       }
       
-      // 3. Show loading state on buttons
+      // 3. Showing loading state on buttons
       function showLoading(button) {
         button.dataset.originalText = button.innerHTML;
         button.innerHTML = `<span class="loading"></span> Processing...`;
         button.disabled = true;
       }
       
-      // 4. Hide loading state
+      // 4. Hiding loading state
       function hideLoading(button) {
         if (button.dataset.originalText) {
           button.innerHTML = button.dataset.originalText;
@@ -496,7 +496,7 @@
         button.disabled = false;
       }
       
-      // 5. Initialize and set up event handlers
+      // 5. Initializing and setting up event handlers
       (async function init() {
         const backendInitialized = await initializeBackend();
         
@@ -537,7 +537,7 @@
           goalStatus.className = "status status-success";
           goalInput.value = '';
           
-          // Add visual feedback
+          // Adding visual feedback
           setGoalBtn.classList.add('pulse');
           setTimeout(() => setGoalBtn.classList.remove('pulse'), 2000);
         } catch (error) {
@@ -696,7 +696,6 @@
     });
   </script>
   
-  <!-- This will be provided by DFX during deployment -->
   <script src="/stride_backend.js"></script>
 </body>
 </html>
